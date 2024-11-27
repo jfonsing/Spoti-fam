@@ -13,21 +13,47 @@ bool Quiz::makeQuizWindow(){
     if (!logo.loadFromFile("images/logo.png")) {
         return false;
     }
+
     sf::Sprite showLogo;
+    sf::Vector2u windowSize = window.getSize();
+    sf::FloatRect logoBounds = showLogo.getLocalBounds();
+    sprite.setOrigin(logoBounds.width / 2.f, logoBounds.height / 2.f);
+
     showLogo.setTexture(logo);
-    showLogo.setPosition(850, 0);
-    showLogo.setScale(0.4,0.4);
+    showLogo.setPosition((windowSize.x - logoBounds.width) / 2.f, -75);
+    showLogo.setScale(0.70,0.70);
+
+    sf::Texture logout;
+    if (!logout.loadFromFile("images/logout.png")) {
+        return false;
+    }
+    sf::Sprite showLogout;
+    showLogout.setTexture(logout);
+    showLogout.setPosition(-25, -65);
+    //showLogout.setScale(0.40,0.40);
+
+    sf::Texture profile;
+    if (!profile.loadFromFile("images/profile.png")) {
+        return false;
+    }
+    sf::Sprite showProfile;
+    showProfile.setTexture(profile);
+    showProfile.setPosition(1700, -65);
+    //showProfile.setScale(0.40,0.40);
 
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed ||
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
         }
         if (window.isOpen()) {
             window.clear(sf::Color(128, 128, 128));
             window.draw(showLogo);
+            window.draw(showLogout);
+            window.draw(showProfile);
             window.display();
         }
     }
