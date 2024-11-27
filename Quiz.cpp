@@ -13,7 +13,7 @@ bool Quiz::makeQuizWindow(){
     if (!logo.loadFromFile("images/logo.png")) {
         return false;
     }
-
+//seeing if pull worls
     sf::Sprite showLogo;
     sf::Vector2u windowSize = window.getSize();
     sf::FloatRect logoBounds = showLogo.getLocalBounds();
