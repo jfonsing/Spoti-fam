@@ -25,6 +25,8 @@ bool Login::makeLoginWindow() {
     showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f)-150);
 
 
+
+
     sf::Font font;
     if (!font.loadFromFile("images/font.ttf"))
     {
@@ -45,13 +47,27 @@ bool Login::makeLoginWindow() {
     sf::Text userInput;
     userInput.setFont(font);
     userInput.setCharacterSize(18);
-    userInput.setFillColor(sf::Color::Yellow);
+    userInput.setFillColor(sf::Color::White);
     userInput.setStyle(sf::Text::Bold);
     userInput.setPosition(window.getSize().x / 2.0f - userInput.getLocalBounds().width / 2.0f,
                           (window.getSize().y / 2.0f) - 25);
 
     const int MAX_CHARS = 30;
-//blahhhh
+    sf::Texture enterButton;
+    if (!enterButton.loadFromFile("images/next.png")) {
+        return false;
+    }
+
+    sf::Sprite showButton;
+    showButton.setTexture(enterButton);
+
+
+    sf::FloatRect buttonBounds = showButton.getLocalBounds();
+    showButton.setOrigin(buttonBounds.width / 2.f, buttonBounds.height / 2.f);
+
+
+    showButton.setScale(0.50f, 0.50f);
+    showButton.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f +30);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -68,6 +84,16 @@ bool Login::makeLoginWindow() {
                     }
                 }
             }
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                sf::FloatRect finalButtonBounds = showButton.getGlobalBounds();
+                if (finalButtonBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) && !name.empty()) {
+                    window.close();
+                    Quiz quizz = Quiz();
+                    quizz.makeQuizWindow();
+
+                }
+            }
 
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Return && !name.empty()) {
@@ -75,7 +101,8 @@ bool Login::makeLoginWindow() {
                     Quiz quizz = Quiz();
                     quizz.makeQuizWindow();
 
-                } else if (event.key.code == sf::Keyboard::Backspace && !name.empty()) {
+                }
+                else if (event.key.code == sf::Keyboard::Backspace && !name.empty()) {
                     name.pop_back();
                 }
             }
@@ -85,18 +112,19 @@ bool Login::makeLoginWindow() {
 
             userInput.setPosition(x, y);  // Set the position of the text
 
-        string displayedName = name;
-        if (name.size() < MAX_CHARS && name.size() >= 1) {
-            displayedName += '|';
-        }
+            string displayedName = name;
+            if (name.size() < MAX_CHARS && name.size() >= 1) {
+                displayedName += '|';
+            }
 
-        userInput.setString(displayedName);
+            userInput.setString(displayedName);
         }
-            window.clear(sf::Color(128, 128, 128));
-            window.draw(showLogo);
-            window.draw(nameText);
-            window.draw(userInput);
-            window.display();
+        window.clear(sf::Color(128, 128, 128));
+        window.draw(showLogo);
+        window.draw(showButton);
+        window.draw(nameText);
+        window.draw(userInput);
+        window.display();
     }
 
     return false;
