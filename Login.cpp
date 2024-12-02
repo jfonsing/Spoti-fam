@@ -60,21 +60,22 @@ bool Login::makeLoginWindow() {
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
-            if(event.type == sf::Event::TextEntered){
-                    if(name.size() < MAX_CHARS){
+            if (event.type == sf::Event::TextEntered) {
+                // Ignore control characters, including backspace
+                if (event.text.unicode < 128 && event.text.unicode != '\b') {
+                    if (name.size() < MAX_CHARS) {
                         name += static_cast<char>(event.text.unicode);
-//                        userInput.setString(name);
                     }
-
+                }
             }
 
-            if(event.type == sf::Event::KeyPressed){
-                if(event.key.code == sf::Keyboard::Return && !name.empty()){
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Return && !name.empty()) {
                     window.close();
                     Quiz quizz = Quiz();
-                    quizz.makeQuizWindow();;
+                    quizz.makeQuizWindow();
 
-                } else if(event.key.code == sf::Keyboard::Backspace && name.size()>0){
+                } else if (event.key.code == sf::Keyboard::Backspace && !name.empty()) {
                     name.pop_back();
                 }
             }
