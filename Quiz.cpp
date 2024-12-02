@@ -276,7 +276,7 @@ bool Quiz::makeQuizWindow(){
     showMCButton11.setOrigin(buttonBoundsMC11.width / 2.f, buttonBoundsMC11.height / 2.f);
 
     showMCButton11.setScale(0.16f, 0.16f);
-    showMCButton11.setPosition(72, window.getSize().y / 2.f - 101);
+    showMCButton11.setPosition(72, window.getSize().y / 2.f -  200);
 
 
     sf::Sprite showMCButton12;
@@ -286,7 +286,7 @@ bool Quiz::makeQuizWindow(){
     showMCButton12.setOrigin(buttonBoundsMC12.width / 2.f, buttonBoundsMC12.height / 2.f);
 
     showMCButton12.setScale(0.16f, 0.16f);
-    showMCButton12.setPosition(72, window.getSize().y / 2.f - 81);
+    showMCButton12.setPosition(72, window.getSize().y / 2.f - 180);
 
 
     sf::Sprite showMCButton13;
@@ -296,7 +296,7 @@ bool Quiz::makeQuizWindow(){
     showMCButton13.setOrigin(buttonBoundsMC13.width / 2.f, buttonBoundsMC13.height / 2.f);
 
     showMCButton13.setScale(0.16f, 0.16f);
-    showMCButton13.setPosition(72, window.getSize().y / 2.f - 61);
+    showMCButton13.setPosition(72, window.getSize().y / 2.f - 160);
 
 
     sf::Sprite showMCButton14;
@@ -306,7 +306,7 @@ bool Quiz::makeQuizWindow(){
     showMCButton14.setOrigin(buttonBoundsMC14.width / 2.f, buttonBoundsMC14.height / 2.f);
 
     showMCButton14.setScale(0.16f, 0.16f);
-    showMCButton14.setPosition(72, window.getSize().y / 2.f - 41);
+    showMCButton14.setPosition(72, window.getSize().y / 2.f - 140);
 
 
     sf::Sprite showMCButton21;
@@ -317,7 +317,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton21.setScale(0.16f, 0.16f);
-    showMCButton21.setPosition(72, window.getSize().y / 2.f - (-19));
+    showMCButton21.setPosition(72, window.getSize().y / 2.f - 70);
 
 
     sf::Sprite showMCButton22;
@@ -328,7 +328,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton22.setScale(0.16f, 0.16f);
-    showMCButton22.setPosition(72, window.getSize().y / 2.f - (-39));
+    showMCButton22.setPosition(72, window.getSize().y / 2.f - 50);
 
 
     sf::Sprite showMCButton23;
@@ -339,7 +339,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton23.setScale(0.16f, 0.16f);
-    showMCButton23.setPosition(72, window.getSize().y / 2.f - (-59));
+    showMCButton23.setPosition(72, window.getSize().y / 2.f - 30);
 
 
     sf::Sprite showMCButton24;
@@ -350,7 +350,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton24.setScale(0.16f, 0.16f);
-    showMCButton24.setPosition(72, window.getSize().y / 2.f - (-79));
+    showMCButton24.setPosition(72, window.getSize().y / 2.f - 10);
 
 
     sf::Sprite showMCButton31;
@@ -361,7 +361,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton31.setScale(0.16f, 0.16f);
-    showMCButton31.setPosition(72, window.getSize().y / 2.f - (-139));
+    showMCButton31.setPosition(72, window.getSize().y / 2.f +60);
 
 
     sf::Sprite showMCButton32;
@@ -372,7 +372,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton32.setScale(0.16f, 0.16f);
-    showMCButton32.setPosition(72, window.getSize().y / 2.f - (-159));
+    showMCButton32.setPosition(72, window.getSize().y / 2.f +80);
 
 
     sf::Sprite showMCButton33;
@@ -383,7 +383,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton33.setScale(0.16f, 0.16f);
-    showMCButton33.setPosition(72, window.getSize().y / 2.f - (-179));
+    showMCButton33.setPosition(72, window.getSize().y / 2.f +100);
 
 
     sf::Sprite showMCButton34;
@@ -394,7 +394,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton34.setScale(0.16f, 0.16f);
-    showMCButton34.setPosition(72, window.getSize().y / 2.f - (-199));
+    showMCButton34.setPosition(72, window.getSize().y / 2.f +120);
 
 
 
@@ -406,7 +406,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton41.setScale(0.16f, 0.16f);
-    showMCButton41.setPosition(72, window.getSize().y / 2.f - (-259));
+    showMCButton41.setPosition(72, window.getSize().y / 2.f +180);
 
 
 
@@ -418,7 +418,7 @@ bool Quiz::makeQuizWindow(){
 
 
     showMCButton42.setScale(0.16f, 0.16f);
-    showMCButton42.setPosition(72, window.getSize().y / 2.f - (-279));
+    showMCButton42.setPosition(72, window.getSize().y / 2.f +200);
 
     bool mouseClickedL = false;
     int MC1 = 0;
