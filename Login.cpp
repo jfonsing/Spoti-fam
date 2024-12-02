@@ -51,7 +51,7 @@ bool Login::makeLoginWindow() {
                           (window.getSize().y / 2.0f) - 25);
 
     const int MAX_CHARS = 30;
-
+//blahhhh
 
     while (window.isOpen()) {
         sf::Event event;
