@@ -7,21 +7,22 @@ using namespace std;
 
 bool Quiz::makeQuizWindow(){
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
-    sf::RenderWindow window(sf::VideoMode(), "Quiz Screen", sf::Style::Fullscreen);
-
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Quiz Screen", sf::Style::Fullscreen);
     sf::Texture logo;
     if (!logo.loadFromFile("images/logo.png")) {
         return false;
     }
-//seeing if pull worls
-    sf::Sprite showLogo;
-    sf::Vector2u windowSize = window.getSize();
-    sf::FloatRect logoBounds = showLogo.getLocalBounds();
-    sprite.setOrigin(logoBounds.width / 2.f, logoBounds.height / 2.f);
 
+    sf::Sprite showLogo;
     showLogo.setTexture(logo);
-    showLogo.setPosition((windowSize.x - logoBounds.width) / 2.f, -75);
-    showLogo.setScale(0.70,0.70);
+
+
+    sf::FloatRect logoBounds = showLogo.getLocalBounds();
+    showLogo.setOrigin(logoBounds.width / 2.f, logoBounds.height / 2.f);
+
+
+    showLogo.setScale(0.50f, 0.50f);
+    showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f)-150);
 
     sf::Texture logout;
     if (!logout.loadFromFile("images/logout.png")) {
@@ -29,8 +30,11 @@ bool Quiz::makeQuizWindow(){
     }
     sf::Sprite showLogout;
     showLogout.setTexture(logout);
-    showLogout.setPosition(-25, -65);
-    //showLogout.setScale(0.40,0.40);
+    showLogout.setScale(0.30,0.30);
+
+    showLogout.setPosition(0.f, (showLogo.getLocalBounds().height / 2.f)-150);
+
+
 
     sf::Texture profile;
     if (!profile.loadFromFile("images/profile.png")) {
@@ -38,8 +42,8 @@ bool Quiz::makeQuizWindow(){
     }
     sf::Sprite showProfile;
     showProfile.setTexture(profile);
-    showProfile.setPosition(1700, -65);
-    //showProfile.setScale(0.40,0.40);
+    showProfile.setScale(0.50,0.50);
+    showProfile.setPosition(window.getSize().x - showLogo.getLocalBounds().width * 0.50f, 10.f);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -61,7 +65,7 @@ bool Quiz::makeQuizWindow(){
     return false;
 }
 
-int main(){
-    Quiz quizz = Quiz();
-    quizz.makeQuizWindow();
-}
+//int main(){
+//    Quiz quizz = Quiz();
+//    quizz.makeQuizWindow();
+//}
