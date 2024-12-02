@@ -6,7 +6,7 @@
 #include "Result.h"
 using namespace std;
 
-//jennas screen update
+//jennas screen updated
 
 bool Quiz::makeQuizWindow(){
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
