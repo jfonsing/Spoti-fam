@@ -6,6 +6,8 @@
 #include "Result.h"
 using namespace std;
 
+//jennas screen update
+
 bool Quiz::makeQuizWindow(){
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
     sf::RenderWindow window(sf::VideoMode(800, 600), "Quiz Screen", sf::Style::Fullscreen);
