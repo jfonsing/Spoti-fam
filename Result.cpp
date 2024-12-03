@@ -10,7 +10,7 @@ bool Results::createWindowR(){
         std::cerr << "Error loading font" << std::endl;
         return -1;  // Exit on error
     }
-    //JENNAS SHIT
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Results Screen", sf::Style::Fullscreen);
     sf::Texture logo;
     if (!logo.loadFromFile("images/logo.png")) {

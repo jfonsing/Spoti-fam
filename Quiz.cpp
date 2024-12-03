@@ -9,7 +9,12 @@ using namespace std;
 
 //jennas screen updated
 
-bool Quiz::makeQuizWindow(){
+//map<string, vector<float>> Quiz::inputNameData(map<string, vector<int>> nameMap){
+//
+//}
+
+
+bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
     sf::RenderWindow window(sf::VideoMode(800, 600), "Quiz Screen", sf::Style::Fullscreen);
     sf::Texture logo;
@@ -573,7 +578,18 @@ bool Quiz::makeQuizWindow(){
                     window.close();
                     Results res = Results();
                     res.createWindowR();
-
+                    vector<int> val;
+                    val.push_back(MC1);
+                    val.push_back(MC2);
+                    val.push_back(MC3);
+                    val.push_back(MC3);
+                    nameMap[name] = val;
+                    for (const auto& [key, value] : nameMap) {
+                        std::cout << key << ": ";
+                        for (const int& i : value){
+                            cout << i << ", ";
+                        }
+                    }
                 }
                 sf::FloatRect finalLogoutBounds = showLogout.getGlobalBounds();
                 if (finalLogoutBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {

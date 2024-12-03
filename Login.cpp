@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Login.h"
 #include "Quiz.h"
+#include <unordered_map>
 //ria screen updated
 
 bool Login::makeLoginWindow() {
@@ -90,8 +91,9 @@ bool Login::makeLoginWindow() {
                 sf::FloatRect finalButtonBounds = showButton.getGlobalBounds();
                 if (finalButtonBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) && !name.empty()) {
                     window.close();
+                    nameData[name] = {0, 0, 0};
                     Quiz quizz = Quiz();
-                    quizz.makeQuizWindow();
+                    quizz.makeQuizWindow(name, nameData);
 
                 }
             }
@@ -99,14 +101,16 @@ bool Login::makeLoginWindow() {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Return && !name.empty()) {
                     window.close();
+                    nameData[name] = {0, 0, 0};
                     Quiz quizz = Quiz();
-                    quizz.makeQuizWindow();
+                    quizz.makeQuizWindow(name, nameData);
 
                 }
                 else if (event.key.code == sf::Keyboard::Backspace && !name.empty()) {
                     name.pop_back();
                 }
             }
+
 //        userInput.setString(name);
             float x = (window.getSize().x / 2.0f) - (userInput.getGlobalBounds().width / 2.0f);
             float y = (window.getSize().y / 2.0f) - 45;
@@ -120,6 +124,7 @@ bool Login::makeLoginWindow() {
 
             userInput.setString(displayedName);
         }
+
         window.clear(sf::Color(128, 128, 128));
         window.draw(showLogo);
         window.draw(showButton);

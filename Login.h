@@ -17,9 +17,9 @@ using namespace std;
 class Login{
 public:
     bool makeLoginWindow();
-
+    string name;
 private:
     sf::Sprite sprite;
-    string name;
+    map<string, vector<int>> nameData;
 };
 //push
