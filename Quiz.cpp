@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "Quiz.h"
@@ -587,6 +588,50 @@ bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
                             cout << i << ", ";
                         }
                     }
+                    //writing current to the csv
+                    ofstream outFile("friends.csv", ios::app);
+                    if (!outFile) {
+                        cerr << "Error: Could not open file for writing!" << std::endl;
+                    }
+                    for (const auto& [key, values] : nameMap) {
+                        outFile << key << ",";
+                        for (size_t i = 0; i < values.size(); i++) {
+                            outFile << values[i];
+                            if (i < values.size() - 1) {
+                                outFile << ",";
+                            }
+                        }
+                        outFile << "\n";
+                    }
+                    outFile.close();
+                    //reading the rest of the users
+                    std::ifstream inFile("friends.csv");
+                    if (!inFile) {
+                        std::cerr << "Error: Could not open file for reading!" << std::endl;
+                        return {};
+                    }
+                    std::string line;
+                    while (std::getline(inFile, line)) {
+                        std::istringstream ss(line);
+                        std::string key, valuesStr;
+
+                        size_t delimiterPos = line.find(',');
+                        if (delimiterPos != std::string::npos) {
+                            key = line.substr(0, delimiterPos);
+                            valuesStr = line.substr(delimiterPos + 1);
+
+                            std::vector<int> values;
+                            std::istringstream valueStream(valuesStr);
+                            std::string value;
+
+                            while (std::getline(valueStream, value, ',')) {
+                                values.push_back(std::stoi(value));
+                            }
+                            nameMap[key] = values;
+                        }
+                    }
+                    inFile.close();
+
                 }
                 sf::FloatRect finalLogoutBounds = showLogout.getGlobalBounds();
                 if (finalLogoutBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
