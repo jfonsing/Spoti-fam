@@ -1,10 +1,15 @@
 //
 // Created by Ria Rajpal on 11/29/24.
 //
+#include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Login.h"
 #include "Quiz.h"
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
 #include <unordered_map>
+#include "Login.h"
 //ria screen updated
 // jenna was here
 
@@ -137,9 +142,55 @@ bool Login::makeLoginWindow() {
     return false;
 }
 
+
+
+
+vector<Login::SongData> Login::parseFile(){
+    ifstream inputFile;
+    inputFile.open("images/dataset.csv");
+    string line = "";
+    vector<SongData> songs;
+    while(getline(inputFile, line)){
+        stringstream inputString(line);
+
+        string songName;
+        string artistName;
+        double danceability;
+        double energy;
+        string genre;
+        string tempString;
+
+        getline(inputString,songName, ',' );
+        getline(inputString,artistName, ',' );
+        getline(inputString,tempString, ',' );
+        danceability = atof(tempString.c_str());
+        getline(inputString,tempString, ',' );
+        energy = atof(tempString.c_str());
+        getline(inputString,genre, ',' );
+
+        SongData element(songName,artistName, danceability, energy, genre);
+        if(element.Genre == "pop" || element.Genre == "country" || element.Genre == "r-n-b" || element.Genre == "hip-hop"  ){
+            songs.push_back(element);
+
+        }
+        line = "";
+
+
+    }
+    return songs;
+}
+
+map<Login::SongData, vector<Login::SongData>> Login::makeGraph(vector<SongData> songs) {
+    //iterate through vector
+    //make a node for each song in vector
+    //
+    return map<SongData, vector<SongData>>();
+}
+
 int main(){
     Login quiz = Login();
     quiz.makeLoginWindow();
 }
 //push
 //
+
