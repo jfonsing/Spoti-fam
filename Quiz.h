@@ -12,4 +12,3 @@ private:
     sf::Sprite sprite;
     //map<string, vector<int>> inputNameData(map<string, vector<int>> nameMap);;
 };
-//push

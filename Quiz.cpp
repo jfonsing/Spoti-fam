@@ -9,9 +9,6 @@ using namespace std;
 
 //jennas screen updated
 
-//map<string, vector<float>> Quiz::inputNameData(map<string, vector<int>> nameMap){
-//
-//}
 
 
 bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){

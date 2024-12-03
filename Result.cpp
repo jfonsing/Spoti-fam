@@ -3,6 +3,7 @@
 #include "Login.h"
 using namespace std;
 
+// new window
 bool Results::createWindowR(){
     sf::Font font;
     if (!font.loadFromFile("images/font.ttf"))

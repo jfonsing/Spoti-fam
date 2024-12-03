@@ -1,6 +1,4 @@
-//
-// Created by Ria Rajpal on 11/29/24.
-//
+
 
 #ifndef SPOTI_FAM_LOGIN_H
 #define SPOTI_FAM_LOGIN_H
