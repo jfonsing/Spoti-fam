@@ -579,7 +579,7 @@ bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
                     val.push_back(MC1);
                     val.push_back(MC2);
                     val.push_back(MC3);
-                    val.push_back(MC3);
+                    val.push_back(MC4);
                     nameMap[name] = val;
                     for (const auto& [key, value] : nameMap) {
                         std::cout << key << ": ";
