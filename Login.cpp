@@ -103,7 +103,6 @@ bool Login::makeLoginWindow() {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Return && !name.empty()) {
                     window.close();
-                    nameData[name] = {0, 0, 0};
                     Quiz quizz = Quiz();
                     quizz.makeQuizWindow(name, nameData);
 
