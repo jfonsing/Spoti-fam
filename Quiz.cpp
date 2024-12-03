@@ -76,7 +76,7 @@ bool Quiz::makeQuizWindow(){
 
     sf::Text q1Text;
     q1Text.setFont(font);
-    q1Text.setString("1. How popular are the songs that you usually listen to?");
+    q1Text.setString("1. What's your favorite genre?");
     q1Text.setCharacterSize(18);
     q1Text.setFillColor(sf::Color::Black);
     //q1Text.setStyle(sf::Text::Bold);
@@ -85,7 +85,7 @@ bool Quiz::makeQuizWindow(){
 
     sf::Text q11Text;
     q11Text.setFont(font);
-    q11Text.setString("Very Popular");
+    q11Text.setString("Pop");
     q11Text.setCharacterSize(16);
     q11Text.setFillColor(sf::Color::Black);
     //q11Text.setStyle(sf::Text::Bold);
@@ -94,7 +94,7 @@ bool Quiz::makeQuizWindow(){
 
     sf::Text q12Text;
     q12Text.setFont(font);
-    q12Text.setString("Somewhat Popular");
+    q12Text.setString("Hip-Hop");
     q12Text.setCharacterSize(16);
     q12Text.setFillColor(sf::Color::Black);
     //q12Text.setStyle(sf::Text::Bold);
@@ -103,7 +103,7 @@ bool Quiz::makeQuizWindow(){
 
     sf::Text q13Text;
     q13Text.setFont(font);
-    q13Text.setString("Not Very Popular");
+    q13Text.setString("R&B");
     q13Text.setCharacterSize(16);
     q13Text.setFillColor(sf::Color::Black);
     //q13Text.setStyle(sf::Text::Bold);
@@ -112,7 +112,7 @@ bool Quiz::makeQuizWindow(){
 
     sf::Text q14Text;
     q14Text.setFont(font);
-    q14Text.setString("Not Popular");
+    q14Text.setString("Country");
     q14Text.setCharacterSize(16);
     q14Text.setFillColor(sf::Color::Black);
     //q14Text.setStyle(sf::Text::Bold);
@@ -157,7 +157,7 @@ bool Quiz::makeQuizWindow(){
 
     sf::Text q24Text;
     q24Text.setFont(font);
-    q24Text.setString("Not Popular");
+    q24Text.setString("Not Danceable at all");
     q24Text.setCharacterSize(16);
     q24Text.setFillColor(sf::Color::Black);
     //q14Text.setStyle(sf::Text::Bold);
@@ -434,7 +434,7 @@ bool Quiz::makeQuizWindow(){
                 window.close();
             }
 
-            //TIM AND JENNA WORK SPACE LETS GET IT
+            //TIM AND JENNA WORK SPACE
             if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
                 mouseClickedL = true;
             }
