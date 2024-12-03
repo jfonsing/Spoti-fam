@@ -523,7 +523,7 @@ bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
                             showMCButton34.setTexture(mcButton);
                         }
                         showMCButton31.setTexture(mcButtonFill);
-                        MC3 = 4;
+                        MC3 = 1;
                     }
                     else if(showMCButton32.getGlobalBounds().contains(translated)){
                         if(MC3 != 0){
