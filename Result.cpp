@@ -3,10 +3,12 @@
 #include "Login.h"
 #include "Quiz.h"
 #include <queue>
+#include <vector>
+#include <unordered_map>
 using namespace std;
 
 // new window
-bool Results::createWindowR(string songName){
+bool Results::createWindowR(string songName, string friendName){
     if (songName.empty()) {
         return false;
     }
@@ -58,7 +60,7 @@ bool Results::createWindowR(string songName){
     // my shit
     sf::Text recommendationText;
     recommendationText.setFont(font);
-    recommendationText.setString("Your daily song recommendation is: ");
+    recommendationText.setString("Your song recommendation is: ");
     recommendationText.setCharacterSize(18);
     recommendationText.setFillColor(sf::Color::White);
     recommendationText.setStyle(sf::Text::Bold);
@@ -92,7 +94,7 @@ bool Results::createWindowR(string songName){
 
     sf::Text friendText;
     friendText.setFont(font);
-    friendText.setString("ACTUAL FRIEND (REPALCE WITH STRING)");
+    friendText.setString(friendName);
     friendText.setCharacterSize(18);
     friendText.setFillColor(sf::Color::White);
     friendText.setStyle(sf::Text::Bold);
@@ -125,7 +127,7 @@ bool Results::createWindowR(string songName){
             window.clear(sf::Color(128, 128, 128));
             window.draw(showLogo);
             window.draw(showLogout);
-            window.draw(showProfile);
+            //window.draw(showProfile);
             // added from me
             window.draw(recommendationText);
             window.draw(songText);
@@ -155,7 +157,7 @@ string Results::generateReccSong(map<string, vector<int>>& nameMap, string name,
     float dance = (values[1]-1)*0.25;
     float enrg = (values[2]-1)*0.25;
     int search = values[3];
-    cout << "3" << endl;
+    //ut << "3" << endl;
     string recSong = "No song found 3";
 
     // pop
@@ -267,5 +269,27 @@ string Results::DFSResults(Login::Node* songTree, float danceability, float ener
     return "";
 }
 
-
+string Results::findFriend(map<string, vector<int>> nameMap, string name){
+    cout << nameMap.size() << endl;
+    vector<int>& values = nameMap[name];
+    string friendd = "No Spoti-fam user has the same music taste as you :(";
+    int genre = values[0];
+    int sum = values[1] + values[2];
+    int minOther = 100;
+    int calcVal = 0;
+    for (const auto & [key, value] : nameMap){
+        if (key == name){
+            continue;
+        }
+        vector<int>& otherUserValues = nameMap[key];
+        if (genre == otherUserValues[0]){
+            calcVal = abs(sum - (otherUserValues[1] + otherUserValues[2]));
+            if(calcVal < minOther){
+                minOther = calcVal;
+                friendd = key;
+            }
+        }
+    }
+    return friendd;
+}
 

@@ -6,13 +6,14 @@
 #include "Quiz.h"
 #include "Result.h"
 #include "Login.h"
+#include <map>
 using namespace std;
 
 //jennas screen updated
 
 
 
-bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphopTree, Login::Node* rnbTree, Login::Node* countryTree){
+bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphopTree, Login::Node* rnbTree, Login::Node* countryTree) {
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
     sf::RenderWindow window(sf::VideoMode(800, 600), "Quiz Screen", sf::Style::Fullscreen);
     sf::Texture logo;
@@ -29,7 +30,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showLogo.setScale(0.30, 0.30);
-    showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f)-195);
+    showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f) - 195);
 
     sf::Texture logout;
     if (!logout.loadFromFile("images/logout.png")) {
@@ -37,10 +38,9 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     }
     sf::Sprite showLogout;
     showLogout.setTexture(logout);
-    showLogout.setScale(0.30,0.30);
+    showLogout.setScale(0.30, 0.30);
 
-    showLogout.setPosition(-40, (showLogout.getLocalBounds().height / 2.f)-280);
-
+    showLogout.setPosition(-40, (showLogout.getLocalBounds().height / 2.f) - 280);
 
 
     sf::Texture profile;
@@ -49,12 +49,12 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     }
     sf::Sprite showProfile;
     showProfile.setTexture(profile);
-    showProfile.setScale(0.30,0.30);
-    showProfile.setPosition(window.getSize().x - showProfile.getLocalBounds().width * 0.22f, (showProfile.getLocalBounds().height / 2.f)-280);
+    showProfile.setScale(0.30, 0.30);
+    showProfile.setPosition(window.getSize().x - showProfile.getLocalBounds().width * 0.22f,
+                            (showProfile.getLocalBounds().height / 2.f) - 280);
 
     sf::Font font;
-    if (!font.loadFromFile("images/font.ttf"))
-    {
+    if (!font.loadFromFile("images/font.ttf")) {
         std::cerr << "Error loading font" << std::endl;
         return -1;  // Exit on error
     }
@@ -129,7 +129,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q2Text.setFillColor(sf::Color::Black);
     //q1Text.setStyle(sf::Text::Bold);
     q2Text.setPosition(30,
-                       (window.getSize().y / 2.0f)-100);
+                       (window.getSize().y / 2.0f) - 100);
 
     sf::Text q21Text;
     q21Text.setFont(font);
@@ -138,7 +138,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q21Text.setFillColor(sf::Color::Black);
     //q11Text.setStyle(sf::Text::Bold);
     q21Text.setPosition(90,
-                        (window.getSize().y / 2.0f) -80);
+                        (window.getSize().y / 2.0f) - 80);
 
     sf::Text q22Text;
     q22Text.setFont(font);
@@ -174,7 +174,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q3Text.setFillColor(sf::Color::Black);
     //q1Text.setStyle(sf::Text::Bold);
     q3Text.setPosition(30,
-                       (window.getSize().y / 2.0f)+30);
+                       (window.getSize().y / 2.0f) + 30);
 
     sf::Text q31Text;
     q31Text.setFont(font);
@@ -183,7 +183,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q31Text.setFillColor(sf::Color::Black);
     //q11Text.setStyle(sf::Text::Bold);
     q31Text.setPosition(90,
-                        (window.getSize().y / 2.0f) +50);
+                        (window.getSize().y / 2.0f) + 50);
 
     sf::Text q32Text;
     q32Text.setFont(font);
@@ -192,7 +192,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q32Text.setFillColor(sf::Color::Black);
     //q12Text.setStyle(sf::Text::Bold);
     q32Text.setPosition(90,
-                        (window.getSize().y / 2.0f) +70);
+                        (window.getSize().y / 2.0f) + 70);
 
     sf::Text q33Text;
     q33Text.setFont(font);
@@ -201,7 +201,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q33Text.setFillColor(sf::Color::Black);
     //q13Text.setStyle(sf::Text::Bold);
     q33Text.setPosition(90,
-                        (window.getSize().y / 2.0f) +90);
+                        (window.getSize().y / 2.0f) + 90);
 
     sf::Text q34Text;
     q34Text.setFont(font);
@@ -210,7 +210,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q34Text.setFillColor(sf::Color::Black);
     //q14Text.setStyle(sf::Text::Bold);
     q34Text.setPosition(90,
-                        (window.getSize().y / 2.0f) +110);
+                        (window.getSize().y / 2.0f) + 110);
 
     sf::Text q4Text;
     q4Text.setFont(font);
@@ -219,7 +219,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q4Text.setFillColor(sf::Color::Black);
     //q1Text.setStyle(sf::Text::Bold);
     q4Text.setPosition(30,
-                       (window.getSize().y / 2.0f) +150);
+                       (window.getSize().y / 2.0f) + 150);
 
     sf::Text q41Text;
     q41Text.setFont(font);
@@ -228,7 +228,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q41Text.setFillColor(sf::Color::Black);
     //q11Text.setStyle(sf::Text::Bold);
     q41Text.setPosition(90,
-                        (window.getSize().y / 2.0f) +170);
+                        (window.getSize().y / 2.0f) + 170);
 
     sf::Text q42Text;
     q42Text.setFont(font);
@@ -237,7 +237,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     q42Text.setFillColor(sf::Color::Black);
     //q12Text.setStyle(sf::Text::Bold);
     q42Text.setPosition(90,
-                        (window.getSize().y / 2.0f) +190);
+                        (window.getSize().y / 2.0f) + 190);
 
     sf::Texture enterButton;
     if (!enterButton.loadFromFile("images/next.png")) {
@@ -253,7 +253,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showButton.setScale(0.50f, 0.50f);
-    showButton.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f +300);
+    showButton.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f + 300);
 
     sf::Texture mcButton;
     if (!mcButton.loadFromFile("images/unfilled.png")) {
@@ -261,7 +261,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     }
 
     sf::Texture mcButtonFill;
-    if (!mcButtonFill.loadFromFile("images/filled.png")){
+    if (!mcButtonFill.loadFromFile("images/filled.png")) {
         return false;
     }
 
@@ -279,7 +279,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     showMCButton11.setOrigin(buttonBoundsMC11.width / 2.f, buttonBoundsMC11.height / 2.f);
 
     showMCButton11.setScale(0.16f, 0.16f);
-    showMCButton11.setPosition(72, window.getSize().y / 2.f -  200);
+    showMCButton11.setPosition(72, window.getSize().y / 2.f - 200);
 
 
     sf::Sprite showMCButton12;
@@ -364,7 +364,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showMCButton31.setScale(0.16f, 0.16f);
-    showMCButton31.setPosition(72, window.getSize().y / 2.f +60);
+    showMCButton31.setPosition(72, window.getSize().y / 2.f + 60);
 
 
     sf::Sprite showMCButton32;
@@ -375,7 +375,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showMCButton32.setScale(0.16f, 0.16f);
-    showMCButton32.setPosition(72, window.getSize().y / 2.f +80);
+    showMCButton32.setPosition(72, window.getSize().y / 2.f + 80);
 
 
     sf::Sprite showMCButton33;
@@ -386,7 +386,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showMCButton33.setScale(0.16f, 0.16f);
-    showMCButton33.setPosition(72, window.getSize().y / 2.f +100);
+    showMCButton33.setPosition(72, window.getSize().y / 2.f + 100);
 
 
     sf::Sprite showMCButton34;
@@ -397,8 +397,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showMCButton34.setScale(0.16f, 0.16f);
-    showMCButton34.setPosition(72, window.getSize().y / 2.f +120);
-
+    showMCButton34.setPosition(72, window.getSize().y / 2.f + 120);
 
 
     sf::Sprite showMCButton41;
@@ -409,8 +408,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showMCButton41.setScale(0.16f, 0.16f);
-    showMCButton41.setPosition(72, window.getSize().y / 2.f +180);
-
+    showMCButton41.setPosition(72, window.getSize().y / 2.f + 180);
 
 
     sf::Sprite showMCButton42;
@@ -421,13 +419,15 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
 
     showMCButton42.setScale(0.16f, 0.16f);
-    showMCButton42.setPosition(72, window.getSize().y / 2.f +200);
+    showMCButton42.setPosition(72, window.getSize().y / 2.f + 200);
 
     bool mouseClickedL = false;
     int MC1 = 0;
     int MC2 = 0;
     int MC3 = 0;
     int MC4 = 0;
+
+    map<string, vector<int>> fakeNameMap;
     // SET BUTTONS AT 60 FOR X AXIS
     while (window.isOpen()) {
         sf::Event event;
@@ -438,130 +438,117 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
             }
 
             //TIM AND JENNA WORK SPACE
-            if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 mouseClickedL = true;
             }
-            if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-                if(mouseClickedL == true){
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+                if (mouseClickedL == true) {
                     auto mouse = sf::Mouse::getPosition(window);
                     auto translated = window.mapPixelToCoords(mouse);
-                    if(showMCButton11.getGlobalBounds().contains(translated)){
-                        if(MC1 != 0){
+                    if (showMCButton11.getGlobalBounds().contains(translated)) {
+                        if (MC1 != 0) {
                             showMCButton12.setTexture(mcButton);
                             showMCButton13.setTexture(mcButton);
                             showMCButton14.setTexture(mcButton);
                         }
                         showMCButton11.setTexture(mcButtonFill);
                         MC1 = 1;
-                    }
-                    else if(showMCButton12.getGlobalBounds().contains(translated)){
-                        if(MC1 != 0){
+                    } else if (showMCButton12.getGlobalBounds().contains(translated)) {
+                        if (MC1 != 0) {
                             showMCButton11.setTexture(mcButton);
                             showMCButton13.setTexture(mcButton);
                             showMCButton14.setTexture(mcButton);
                         }
                         showMCButton12.setTexture(mcButtonFill);
                         MC1 = 2;
-                    }
-                    else if(showMCButton13.getGlobalBounds().contains(translated)){
-                        if(MC1 != 0){
+                    } else if (showMCButton13.getGlobalBounds().contains(translated)) {
+                        if (MC1 != 0) {
                             showMCButton11.setTexture(mcButton);
                             showMCButton12.setTexture(mcButton);
                             showMCButton14.setTexture(mcButton);
                         }
                         showMCButton13.setTexture(mcButtonFill);
                         MC1 = 3;
-                    }
-                    else if(showMCButton14.getGlobalBounds().contains(translated)){
-                        if(MC1 != 0){
+                    } else if (showMCButton14.getGlobalBounds().contains(translated)) {
+                        if (MC1 != 0) {
                             showMCButton11.setTexture(mcButton);
                             showMCButton12.setTexture(mcButton);
                             showMCButton13.setTexture(mcButton);
                         }
                         showMCButton14.setTexture(mcButtonFill);
                         MC1 = 4;
-                    }
-                    else if(showMCButton21.getGlobalBounds().contains(translated)){
-                        if(MC2 != 0){
+                    } else if (showMCButton21.getGlobalBounds().contains(translated)) {
+                        if (MC2 != 0) {
                             showMCButton22.setTexture(mcButton);
                             showMCButton23.setTexture(mcButton);
                             showMCButton24.setTexture(mcButton);
                         }
                         showMCButton21.setTexture(mcButtonFill);
                         MC2 = 1;
-                    }
-                    else if(showMCButton22.getGlobalBounds().contains(translated)){
-                        if(MC2 != 0){
+                    } else if (showMCButton22.getGlobalBounds().contains(translated)) {
+                        if (MC2 != 0) {
                             showMCButton21.setTexture(mcButton);
                             showMCButton23.setTexture(mcButton);
                             showMCButton24.setTexture(mcButton);
                         }
                         showMCButton22.setTexture(mcButtonFill);
                         MC2 = 2;
-                    }
-                    else if(showMCButton23.getGlobalBounds().contains(translated)){
-                        if(MC2 != 0){
+                    } else if (showMCButton23.getGlobalBounds().contains(translated)) {
+                        if (MC2 != 0) {
                             showMCButton21.setTexture(mcButton);
                             showMCButton22.setTexture(mcButton);
                             showMCButton24.setTexture(mcButton);
                         }
                         showMCButton23.setTexture(mcButtonFill);
                         MC2 = 3;
-                    }
-                    else if(showMCButton24.getGlobalBounds().contains(translated)){
-                        if(MC2 != 0){
+                    } else if (showMCButton24.getGlobalBounds().contains(translated)) {
+                        if (MC2 != 0) {
                             showMCButton21.setTexture(mcButton);
                             showMCButton22.setTexture(mcButton);
                             showMCButton23.setTexture(mcButton);
                         }
                         showMCButton24.setTexture(mcButtonFill);
                         MC2 = 4;
-                    }
-                    else if(showMCButton31.getGlobalBounds().contains(translated)){
-                        if(MC3 != 0){
+                    } else if (showMCButton31.getGlobalBounds().contains(translated)) {
+                        if (MC3 != 0) {
                             showMCButton32.setTexture(mcButton);
                             showMCButton33.setTexture(mcButton);
                             showMCButton34.setTexture(mcButton);
                         }
                         showMCButton31.setTexture(mcButtonFill);
                         MC3 = 1;
-                    }
-                    else if(showMCButton32.getGlobalBounds().contains(translated)){
-                        if(MC3 != 0){
+                    } else if (showMCButton32.getGlobalBounds().contains(translated)) {
+                        if (MC3 != 0) {
                             showMCButton31.setTexture(mcButton);
                             showMCButton33.setTexture(mcButton);
                             showMCButton34.setTexture(mcButton);
                         }
                         showMCButton32.setTexture(mcButtonFill);
                         MC3 = 2;
-                    }
-                    else if(showMCButton33.getGlobalBounds().contains(translated)){
-                        if(MC3 != 0){
+                    } else if (showMCButton33.getGlobalBounds().contains(translated)) {
+                        if (MC3 != 0) {
                             showMCButton31.setTexture(mcButton);
                             showMCButton32.setTexture(mcButton);
                             showMCButton34.setTexture(mcButton);
                         }
                         showMCButton33.setTexture(mcButtonFill);
                         MC3 = 3;
-                    }
-                    else if(showMCButton34.getGlobalBounds().contains(translated)){
-                        if(MC3 != 0){
+                    } else if (showMCButton34.getGlobalBounds().contains(translated)) {
+                        if (MC3 != 0) {
                             showMCButton31.setTexture(mcButton);
                             showMCButton32.setTexture(mcButton);
                             showMCButton33.setTexture(mcButton);
                         }
                         showMCButton34.setTexture(mcButtonFill);
                         MC3 = 4;
-                    }
-                    else if(showMCButton41.getGlobalBounds().contains(translated)){
-                        if(MC4 != 0){
+                    } else if (showMCButton41.getGlobalBounds().contains(translated)) {
+                        if (MC4 != 0) {
                             showMCButton42.setTexture(mcButton);
                         }
                         showMCButton41.setTexture(mcButtonFill);
                         MC4 = 1;
-                    }
-                    else if(showMCButton42.getGlobalBounds().contains(translated)){
-                        if(MC4 != 0){
+                    } else if (showMCButton42.getGlobalBounds().contains(translated)) {
+                        if (MC4 != 0) {
                             showMCButton41.setTexture(mcButton);
                         }
                         showMCButton42.setTexture(mcButtonFill);
@@ -572,30 +559,27 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 sf::FloatRect finalButtonBounds = showButton.getGlobalBounds();
-                if (finalButtonBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) && MC1 != 0 && MC2 != 0 && MC3 != 0 && MC4 != 0) {
+                if (finalButtonBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) &&
+                    MC1 != 0 && MC2 != 0 && MC3 != 0 && MC4 != 0) {
                     window.close();
                     vector<int> val;
                     val.push_back(MC1);
                     val.push_back(MC2);
                     val.push_back(MC3);
                     val.push_back(MC4);
-                    nameMap[name] = val;
-                    for (const auto& [key, value] : nameMap) {
+                    fakeNameMap[name] = val;
+                    for (const auto &[key, value]: fakeNameMap) {
                         std::cout << key << ": ";
-                        for (const int& i : value){
+                        for (const int &i: value) {
                             cout << i << ", ";
                         }
                     }
-                    Results res = Results();
-                    string songName = res.generateReccSong(nameMap, name, popTree, hiphopTree, rnbTree, countryTree);
-                    res.createWindowR(songName);
-
                     //writing current to the csv
-                    ofstream outFile("friends.csv", ios::app);
+                    ofstream outFile("images/friends.csv", ios::app);
                     if (!outFile) {
                         cerr << "Error: Could not open file for writing!" << std::endl;
                     }
-                    for (const auto& [key, values] : nameMap) {
+                    for (const auto &[key, values]: fakeNameMap) {
                         outFile << key << ",";
                         for (size_t i = 0; i < values.size(); i++) {
                             outFile << values[i];
@@ -607,86 +591,118 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
                     }
                     outFile.close();
                     //reading the rest of the users
-                    std::ifstream inFile("friends.csv");
-                    if (!inFile) {
-                        std::cerr << "Error: Could not open file for reading!" << std::endl;
-                        return {};
+                    ifstream inputFile;
+                    inputFile.open("images/friends.csv");
+                    if (!inputFile.is_open()) {
+                        return false;
                     }
-                    std::string line;
-                    while (std::getline(inFile, line)) {
-                        std::istringstream ss(line);
-                        std::string key, valuesStr;
+                    string line = "";
 
-                        size_t delimiterPos = line.find(',');
-                        if (delimiterPos != std::string::npos) {
-                            key = line.substr(0, delimiterPos);
-                            valuesStr = line.substr(delimiterPos + 1);
+                    while (getline(inputFile, line)) {
+                        if (line.empty()) continue;
+                        stringstream inputString(line);
 
-                            std::vector<int> values;
-                            std::istringstream valueStream(valuesStr);
-                            std::string value;
+                        string username = "";
+                        int gen = 0;
+                        int dan = 0;
+                        int ene = 0;
+                        int tra = 0;
+                        string tempString;
 
-                            while (std::getline(valueStream, value, ',')) {
-                                values.push_back(std::stoi(value));
-                            }
-                            nameMap[key] = values;
+                        getline(inputString, username, ',');
+                        getline(inputString, tempString, ',');
+                        try {
+                            gen = std::stoi(tempString);
+                        } catch (const std::invalid_argument &e) {
+                            continue;
                         }
+                        getline(inputString, tempString, ',');
+
+
+                        try {
+                            dan = std::stoi(tempString);
+                        } catch (const std::invalid_argument &e) {
+                            continue;
+                        }
+                        getline(inputString, tempString, ',');
+                        try {
+                            ene = std::stoi(tempString);
+                        } catch (const std::invalid_argument &e) {
+                            continue;
+                        }
+                        getline(inputString, tempString, ',');
+                        try {
+                            tra = std::stoi(tempString);
+                        } catch (const std::invalid_argument &e) {
+                            continue;
+                        }
+                        vector<int> userData = {gen, dan, ene, tra};
+                        nameMap[username] = userData;
+                        cout << "Inserted " << username << " into map with data: "
+                             << gen << ", " << dan << ", " << ene << ", " << tra << endl;
+                        //end reading
                     }
-                    inFile.close();
+                    inputFile.close();
+                    Results res = Results();
+                    string songName = res.generateReccSong(fakeNameMap, name, popTree, hiphopTree, rnbTree, countryTree);
+                    string friendName = res.findFriend(nameMap, name);
+                    res.createWindowR(songName, friendName);
 
-                }
-                sf::FloatRect finalLogoutBounds = showLogout.getGlobalBounds();
-                if (finalLogoutBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
-                    window.close();
-                    Login home = Login();
-                    home.makeLoginWindow();
 
+                        //cout << nameMap.size();
+
+                    }
+                    sf::FloatRect finalLogoutBounds = showLogout.getGlobalBounds();
+                    if (finalLogoutBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
+                        window.close();
+                        Login home = Login();
+                        home.makeLoginWindow();
+
+                    }
                 }
             }
+            if (window.isOpen()) {
+                window.clear(sf::Color(128, 128, 128));
+                window.draw(showLogo);
+                window.draw(showLogout);
+                //window.draw(showProfile);
+                window.draw(welcomeText);
+                window.draw(captionText);
+                window.draw(q1Text);
+                window.draw(q11Text);
+                window.draw(q12Text);
+                window.draw(q13Text);
+                window.draw(q14Text);
+                window.draw(q2Text);
+                window.draw(q21Text);
+                window.draw(q22Text);
+                window.draw(q23Text);
+                window.draw(q24Text);
+                window.draw(q3Text);
+                window.draw(q31Text);
+                window.draw(q32Text);
+                window.draw(q33Text);
+                window.draw(q34Text);
+                window.draw(q4Text);
+                window.draw(q41Text);
+                window.draw(q42Text);
+                window.draw(showButton);
+                window.draw(showMCButton11);
+                window.draw(showMCButton12);
+                window.draw(showMCButton13);
+                window.draw(showMCButton14);
+                window.draw(showMCButton21);
+                window.draw(showMCButton22);
+                window.draw(showMCButton23);
+                window.draw(showMCButton24);
+                window.draw(showMCButton31);
+                window.draw(showMCButton32);
+                window.draw(showMCButton33);
+                window.draw(showMCButton34);
+                window.draw(showMCButton41);
+                window.draw(showMCButton42);
+                window.display();
+            }
         }
-        if (window.isOpen()) {
-            window.clear(sf::Color(128, 128, 128));
-            window.draw(showLogo);
-            window.draw(showLogout);
-            window.draw(showProfile);
-            window.draw(welcomeText);
-            window.draw(captionText);
-            window.draw(q1Text);
-            window.draw(q11Text);
-            window.draw(q12Text);
-            window.draw(q13Text);
-            window.draw(q14Text);
-            window.draw(q2Text);
-            window.draw(q21Text);
-            window.draw(q22Text);
-            window.draw(q23Text);
-            window.draw(q24Text);
-            window.draw(q3Text);
-            window.draw(q31Text);
-            window.draw(q32Text);
-            window.draw(q33Text);
-            window.draw(q34Text);
-            window.draw(q4Text);
-            window.draw(q41Text);
-            window.draw(q42Text);
-            window.draw(showButton);
-            window.draw(showMCButton11);
-            window.draw(showMCButton12);
-            window.draw(showMCButton13);
-            window.draw(showMCButton14);
-            window.draw(showMCButton21);
-            window.draw(showMCButton22);
-            window.draw(showMCButton23);
-            window.draw(showMCButton24);
-            window.draw(showMCButton31);
-            window.draw(showMCButton32);
-            window.draw(showMCButton33);
-            window.draw(showMCButton34);
-            window.draw(showMCButton41);
-            window.draw(showMCButton42);
-            window.display();
-        }
-    }
-
     return false;
 }

@@ -150,7 +150,7 @@ bool Login::makeLoginWindow() {
 
 void Login::parseFile(){
     ifstream inputFile;
-    inputFile.open("images/dataset4.csv");
+    inputFile.open("images/dataset.csv");
     if (!inputFile.is_open()) {
         return;
     }
