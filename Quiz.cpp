@@ -12,7 +12,7 @@ using namespace std;
 
 
 
-bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
+bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphopTree, Login::Node* rnbTree, Login::Node* countryTree){
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
     sf::RenderWindow window(sf::VideoMode(800, 600), "Quiz Screen", sf::Style::Fullscreen);
     sf::Texture logo;
@@ -574,8 +574,6 @@ bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
                 sf::FloatRect finalButtonBounds = showButton.getGlobalBounds();
                 if (finalButtonBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) && MC1 != 0 && MC2 != 0 && MC3 != 0 && MC4 != 0) {
                     window.close();
-                    Results res = Results();
-                    res.createWindowR();
                     vector<int> val;
                     val.push_back(MC1);
                     val.push_back(MC2);
@@ -588,6 +586,10 @@ bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
                             cout << i << ", ";
                         }
                     }
+                    Results res = Results();
+                    string songName = res.generateReccSong(nameMap, name, popTree, hiphopTree, rnbTree, countryTree);
+                    res.createWindowR(songName);
+
                     //writing current to the csv
                     ofstream outFile("friends.csv", ios::app);
                     if (!outFile) {
@@ -688,4 +690,3 @@ bool Quiz::makeQuizWindow(string name, map<string, vector<int>> nameMap){
 
     return false;
 }
-//push

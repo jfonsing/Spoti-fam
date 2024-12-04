@@ -78,6 +78,8 @@ bool Login::makeLoginWindow() {
     showButton.setScale(0.50f, 0.50f);
     showButton.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f +30);
 
+    parseFile();
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -100,16 +102,17 @@ bool Login::makeLoginWindow() {
                     window.close();
                     nameData[name] = {0, 0, 0};
                     Quiz quizz = Quiz();
-                    quizz.makeQuizWindow(name, nameData);
+                    quizz.makeQuizWindow(name, popTree, hiphopTree, rnbTree, countryTree);
 
                 }
             }
+
 
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Return && !name.empty()) {
                     window.close();
                     Quiz quizz = Quiz();
-                    quizz.makeQuizWindow(name, nameData);
+                    quizz.makeQuizWindow(name, popTree, hiphopTree, rnbTree, countryTree);
 
                 }
                 else if (event.key.code == sf::Keyboard::Backspace && !name.empty()) {
@@ -145,47 +148,140 @@ bool Login::makeLoginWindow() {
 
 
 
-vector<Login::SongData> Login::parseFile(){
+void Login::parseFile(){
     ifstream inputFile;
-    inputFile.open("images/dataset.csv");
+    inputFile.open("images/dataset4.csv");
+    if (!inputFile.is_open()) {
+        return;
+    }
     string line = "";
     vector<SongData> songs;
+
     while(getline(inputFile, line)){
+        if (line.empty()) continue;
         stringstream inputString(line);
 
         string songName;
         string artistName;
-        double danceability;
-        double energy;
+        double danceability = 0.0;
+        double energy = 0.0;
         string genre;
         string tempString;
+        string number;
+        string trackid;
+        string album;
+        string popular;
+        string duration;
+        string explicitt;
+        string key;
+        string loudness;
+        string mode;
+        string speech;
+        string acoustic;
+        string instrument;
+        string live;
+        string valence;
+        string tempo;
+        string time;
 
-        getline(inputString,songName, ',' );
+        getline(inputString, number, ',');
+        getline(inputString, trackid, ',');
         getline(inputString,artistName, ',' );
+        getline(inputString,album, ',' );
+        getline(inputString,songName, ',' );
+        getline(inputString,popular, ',' );
+        getline(inputString,duration, ',' );
+        getline(inputString,explicitt, ',' );
         getline(inputString,tempString, ',' );
-        danceability = atof(tempString.c_str());
+
+
+        try {
+            danceability = std::stod(tempString);
+        } catch (const std::invalid_argument& e) {
+            continue;
+        }
         getline(inputString,tempString, ',' );
-        energy = atof(tempString.c_str());
+        try {
+            energy = std::stod(tempString);
+        } catch (const std::invalid_argument& e) {
+            continue;
+        }
+        getline(inputString,key, ',' );
+        getline(inputString,loudness, ',' );
+        getline(inputString,mode, ',' );
+        getline(inputString,speech, ',' );
+        getline(inputString,acoustic, ',' );
+        getline(inputString,instrument, ',' );
+        getline(inputString,live, ',' );
+        getline(inputString,valence, ',' );
+        getline(inputString,tempo, ',' );
+        getline(inputString,time, ',' );
         getline(inputString,genre, ',' );
 
-        SongData element(songName,artistName, danceability, energy, genre);
-        if(element.Genre == "pop" || element.Genre == "country" || element.Genre == "r-n-b" || element.Genre == "hip-hop"  ){
-            songs.push_back(element);
+        SongData* element = new SongData(songName,artistName, danceability, energy, genre);
 
+        if(element->Genre == "pop"){
+            cout << element->Genre << endl;
+            popSongs.push_back(element);
+        }
+        else if(element->Genre == "country"){
+            cout << element->Genre << endl;
+            countrySongs.push_back(element);
+        }
+        else if(element->Genre == "r-n-b"){
+            cout << element->Genre << endl;
+            rnbSongs.push_back(element);
+        }
+        else if(element->Genre == "hip-hop"){
+            cout << element->Genre << endl;
+            hiphopSongs.push_back(element);
         }
         line = "";
-
-
     }
-    return songs;
+//    if (!popSongs.empty()) {
+//        cout << popSongs[0]->ArtistName << endl;
+//    }
+    popTree = makeTree(popSongs);
+    countryTree = makeTree(countrySongs);
+    rnbTree = makeTree(rnbSongs);
+    hiphopTree = makeTree(hiphopSongs);
 }
 
-map<Login::SongData, vector<Login::SongData>> Login::makeGraph(vector<SongData> songs) {
-    //iterate through vector
-    //make a node for each song in vector
-    //
-    return map<SongData, vector<SongData>>();
+Login::Node* Login::insert(Node* node, const SongData& song) {
+    //cout << "entered" << endl;
+    if(node == nullptr){
+        Node* newNode = new Node(song);
+        //cout << "Inserting song: " << song.SongName << " (Danceability: " << song.Danceability << ")" << endl;
+        return newNode;
+    }
+    if(song.Danceability < node->song.Danceability){
+        //cout << "Going left: " << song.SongName << " (Danceability: " << song.Danceability << ")" << endl;
+        node->left = insert(node->left, song);
+    }
+    else if(song.Danceability > node->song.Danceability){
+        //cout << "Going right: " << song.SongName << " (Danceability: " << song.Danceability << ")" << endl;
+        node->right = insert(node->right, song);
+    }
+    else {
+        //cout << "Duplicate found, inserting in left subtree: " << song.SongName << endl;
+        node->left = insert(node->left, song);  // Insert duplicates in the left subtree (or handle them differently)
+    }
+//    cout << node << endl;
+    return node;
 }
+
+Login::Node* Login::makeTree(vector<SongData*> songVect){
+    if (songVect.empty()) {
+        return nullptr;
+    }
+
+    Login::Node* root = new Login::Node(*songVect[0]);
+    for(int i = 1; i < songVect.size(); i++){
+        insert(root, *songVect[i]);
+    }
+    return root;
+}
+
 
 int main(){
     Login quiz = Login();

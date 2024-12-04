@@ -1,15 +1,21 @@
 #include <SFML/Graphics.hpp>
 #include "Result.h"
 #include "Login.h"
+#include "Quiz.h"
+#include <queue>
 using namespace std;
 
 // new window
-bool Results::createWindowR(){
+bool Results::createWindowR(string songName){
+    if (songName.empty()) {
+        return false;
+    }
+
     sf::Font font;
     if (!font.loadFromFile("images/font.ttf"))
     {
         std::cerr << "Error loading font" << std::endl;
-        return -1;  // Exit on error
+        return false;  // Exit on error
     }
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Results Screen", sf::Style::Fullscreen);
@@ -63,7 +69,7 @@ bool Results::createWindowR(){
 
     sf::Text songText;
     songText.setFont(font);
-    songText.setString("THIS IS THE SONG(REPLACE)");
+    songText.setString(songName);
     songText.setCharacterSize(18);
     songText.setFillColor(sf::Color::White);
     songText.setStyle(sf::Text::Bold);
@@ -131,3 +137,135 @@ bool Results::createWindowR(){
     return false;
 
 }
+
+string Results::generateReccSong(map<string, vector<int>>& nameMap, string name, Login::Node* popTree, Login::Node* hiphopTree, Login::Node* rnbTree, Login::Node* countryTree) {
+    //cout << nameMap.size();
+
+    if (nameMap.find(name) == nameMap.end()) {
+        cout << "1" << endl;
+        return "No song found 1";
+    }
+    vector<int>& values = nameMap[name];
+    if (values.size() < 4) {
+        cout << "2" << endl;
+        return "No song found 2";
+    }
+
+    int element = values[0];
+    float dance = (values[1]-1)*0.25;
+    float enrg = (values[2]-1)*0.25;
+    int search = values[3];
+    cout << "3" << endl;
+    string recSong = "No song found 3";
+
+    // pop
+    if(element == 1){
+        if (popTree == nullptr) {
+            cout << "4" << endl;
+            return "No song found. 4";
+        }
+        // bfs
+        if (search == 1){
+            // search through tree, if meets dance and energy add songdata it is the song (end search)
+            recSong = BFSResults(popTree, dance, enrg);
+        }
+        else{
+            recSong = DFSResults(popTree, dance, enrg);
+        }
+    }
+    // hip-hop
+    else if (element == 2) {
+        if (hiphopTree == nullptr) {
+            std::cerr << "Error: popTree is uninitialized." << std::endl;
+            return "No song found. 5";
+        }
+        // bfs
+        if (search == 1) {
+            recSong = BFSResults(hiphopTree, dance, enrg);
+
+        }
+        else{
+            recSong = DFSResults(hiphopTree, dance, enrg);
+        }
+    }
+    //rnb
+    else if (element == 3) {
+        if (rnbTree == nullptr) {
+            std::cerr << "Error: popTree is uninitialized." << std::endl;
+            return "No song found. 6";
+        }
+        // bfs
+        if (search == 1) {
+            recSong = BFSResults(rnbTree, dance, enrg);
+
+            }
+        else{
+            recSong = DFSResults(rnbTree, dance, enrg);
+        }
+    }
+    // country
+    else if (element == 4){
+        if (countryTree == nullptr) {
+            std::cerr << "Error: popTree is uninitialized." << std::endl;
+            return "No song found. 7";
+        }
+        if (search == 1){
+            recSong = BFSResults(countryTree, dance, enrg);
+
+        }
+        else{
+            recSong = DFSResults(countryTree, dance, enrg);
+        }
+    }
+    return recSong;
+}
+
+
+string Results::BFSResults(Login::Node* songTree, float danceability, float energy){
+    string finalSong;
+    if(songTree == nullptr){
+        return "no song found 8";
+    }
+    queue<Login::Node*> nQueue;
+    nQueue.push(songTree);
+    while(!nQueue.empty()){
+        Login::Node* current = nQueue.front();
+        nQueue.pop();
+        if(current->song.Danceability > (danceability) && current->song.Danceability < (danceability + .25) && current->song.Energy > energy && current->song.Energy < (energy + .25)){
+            finalSong = current->song.SongName + " by " + current->song.ArtistName;
+            return finalSong;
+        }
+        if (current->left) {
+            nQueue.push(current->left);
+        }
+        if (current->right) {
+            nQueue.push(current->right);
+        }
+    }
+    return finalSong;
+}
+
+string Results::DFSResults(Login::Node* songTree, float danceability, float energy) {
+    if (songTree == nullptr) {
+        return "";
+    }
+
+    string leftResult = DFSResults(songTree->left, danceability, energy);
+    if (!leftResult.empty()) {
+        return leftResult; // Return if a match is found in the left subtree
+    }
+
+    if (songTree->song.Danceability > danceability && songTree->song.Danceability < danceability + 0.25 && songTree->song.Energy > energy && songTree->song.Energy < energy + 0.25) {
+        return songTree->song.SongName + " by " + songTree->song.ArtistName;
+    }
+
+
+    string rightResult = DFSResults(songTree->right, danceability, energy);
+    if (!rightResult.empty()) {
+        return rightResult; // Return if a match is found in the right subtree
+    }
+    return "";
+}
+
+
+
