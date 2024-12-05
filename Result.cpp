@@ -1,18 +1,20 @@
 #include <SFML/Graphics.hpp>
 #include "Result.h"
 #include "Login.h"
-#include "Quiz.h"
 #include <queue>
 #include <vector>
 #include <unordered_map>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
-// new window
+// creates new results window
 bool Results::createWindowR(string songName, string friendName){
     if (songName.empty()) {
         return false;
     }
 
+    // loadinig font
     sf::Font font;
     if (!font.loadFromFile("images/font.ttf"))
     {
@@ -21,6 +23,8 @@ bool Results::createWindowR(string songName, string friendName){
     }
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Results Screen", sf::Style::Fullscreen);
+
+    // putting logo on screen
     sf::Texture logo;
     if (!logo.loadFromFile("images/logo.png")) {
         return false;
@@ -29,14 +33,13 @@ bool Results::createWindowR(string songName, string friendName){
     sf::Sprite showLogo;
     showLogo.setTexture(logo);
 
-
     sf::FloatRect logoBounds = showLogo.getLocalBounds();
     showLogo.setOrigin(logoBounds.width / 2.f, logoBounds.height / 2.f);
-
 
     showLogo.setScale(0.30, 0.30);
     showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f)-195);
 
+    // putting logout button
     sf::Texture logout;
     if (!logout.loadFromFile("images/logout.png")) {
         return false;
@@ -47,8 +50,7 @@ bool Results::createWindowR(string songName, string friendName){
 
     showLogout.setPosition(-40, (showLogout.getLocalBounds().height / 2.f)-280);
 
-
-
+    // profile icon is not being used anymore
     sf::Texture profile;
     if (!profile.loadFromFile("images/profile.png")) {
         return false;
@@ -57,7 +59,8 @@ bool Results::createWindowR(string songName, string friendName){
     showProfile.setTexture(profile);
     showProfile.setScale(0.30,0.30);
     showProfile.setPosition(window.getSize().x - showProfile.getLocalBounds().width * 0.22f, (showProfile.getLocalBounds().height / 2.f)-280);
-    // my shit
+
+    // placing text on result screen
     sf::Text recommendationText;
     recommendationText.setFont(font);
     recommendationText.setString("Your song recommendation is: ");
@@ -104,7 +107,6 @@ bool Results::createWindowR(string songName, string friendName){
     friendText.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f + 50);
 
 
-    //jenna's shit
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -112,6 +114,7 @@ bool Results::createWindowR(string songName, string friendName){
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+            // if user clicks logout button
             else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 sf::FloatRect finalLogoutBounds = showLogout.getGlobalBounds();
@@ -140,8 +143,9 @@ bool Results::createWindowR(string songName, string friendName){
 
 }
 
+// finding a song for the user
 string Results::generateReccSong(map<string, vector<int>>& nameMap, string name, Login::Node* popTree, Login::Node* hiphopTree, Login::Node* rnbTree, Login::Node* countryTree) {
-    //cout << nameMap.size();
+    auto a = high_resolution_clock::now();
 
     if (nameMap.find(name) == nameMap.end()) {
         cout << "1" << endl;
@@ -157,10 +161,9 @@ string Results::generateReccSong(map<string, vector<int>>& nameMap, string name,
     float dance = (values[1]-1)*0.25;
     float enrg = (values[2]-1)*0.25;
     int search = values[3];
-    //ut << "3" << endl;
     string recSong = "No song found 3";
 
-    // pop
+    // searching in pop tree
     if(element == 1){
         if (popTree == nullptr) {
             cout << "4" << endl;
@@ -175,7 +178,7 @@ string Results::generateReccSong(map<string, vector<int>>& nameMap, string name,
             recSong = DFSResults(popTree, dance, enrg);
         }
     }
-    // hip-hop
+    // searching in hip-hop tree
     else if (element == 2) {
         if (hiphopTree == nullptr) {
             std::cerr << "Error: popTree is uninitialized." << std::endl;
@@ -184,13 +187,12 @@ string Results::generateReccSong(map<string, vector<int>>& nameMap, string name,
         // bfs
         if (search == 1) {
             recSong = BFSResults(hiphopTree, dance, enrg);
-
         }
         else{
             recSong = DFSResults(hiphopTree, dance, enrg);
         }
     }
-    //rnb
+    // searching in rnb tree
     else if (element == 3) {
         if (rnbTree == nullptr) {
             std::cerr << "Error: popTree is uninitialized." << std::endl;
@@ -199,13 +201,12 @@ string Results::generateReccSong(map<string, vector<int>>& nameMap, string name,
         // bfs
         if (search == 1) {
             recSong = BFSResults(rnbTree, dance, enrg);
-
             }
         else{
             recSong = DFSResults(rnbTree, dance, enrg);
         }
     }
-    // country
+    // searching in country tree
     else if (element == 4){
         if (countryTree == nullptr) {
             std::cerr << "Error: popTree is uninitialized." << std::endl;
@@ -213,16 +214,19 @@ string Results::generateReccSong(map<string, vector<int>>& nameMap, string name,
         }
         if (search == 1){
             recSong = BFSResults(countryTree, dance, enrg);
-
         }
         else{
             recSong = DFSResults(countryTree, dance, enrg);
         }
     }
+    auto b = high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(b- a);
+    cout << "start" << endl;
+    cout << "BFS/DFS runtime: " << duration.count() << " ns" << endl;
     return recSong;
 }
 
-
+// searching as BFS (used lecture as guideline)
 string Results::BFSResults(Login::Node* songTree, float danceability, float energy){
     string finalSong;
     if(songTree == nullptr){
@@ -247,6 +251,7 @@ string Results::BFSResults(Login::Node* songTree, float danceability, float ener
     return finalSong;
 }
 
+// search as DFS (used lecture as guideline)
 string Results::DFSResults(Login::Node* songTree, float danceability, float energy) {
     if (songTree == nullptr) {
         return "";
@@ -254,23 +259,23 @@ string Results::DFSResults(Login::Node* songTree, float danceability, float ener
 
     string leftResult = DFSResults(songTree->left, danceability, energy);
     if (!leftResult.empty()) {
-        return leftResult; // Return if a match is found in the left subtree
+        return leftResult;
     }
 
     if (songTree->song.Danceability > danceability && songTree->song.Danceability < danceability + 0.25 && songTree->song.Energy > energy && songTree->song.Energy < energy + 0.25) {
         return songTree->song.SongName + " by " + songTree->song.ArtistName;
     }
 
-
     string rightResult = DFSResults(songTree->right, danceability, energy);
     if (!rightResult.empty()) {
-        return rightResult; // Return if a match is found in the right subtree
+        return rightResult;
     }
     return "";
 }
 
+// finding your friend by if you have the same genre and the danceability and energy are the closest
 string Results::findFriend(map<string, vector<int>> nameMap, string name){
-    cout << nameMap.size() << endl;
+    //cout << nameMap.size() << endl;
     vector<int>& values = nameMap[name];
     string friendd = "No Spoti-fam user has the same music taste as you :(";
     int genre = values[0];

@@ -12,5 +12,4 @@ public:
     map<string, vector<int>> nameMap;
 private:
     sf::Sprite sprite;
-    //map<string, vector<int>> inputNameData(map<string, vector<int>> nameMap);;
 };

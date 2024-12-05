@@ -1,20 +1,14 @@
-
-
-
 #define SPOTI_FAM_LOGIN_H
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <string>
-
 #include <SFML/Graphics.hpp>
 using namespace std;
 #pragma once
 
 class Login{
-
-
 public:
     //struct of songs and its attriubutes
     struct SongData{
@@ -52,6 +46,8 @@ public:
             return *this;
         }
     };
+
+    // struct of nodes to mode throughout tree
     struct Node{
         SongData song;
         Node* left;
@@ -65,7 +61,7 @@ public:
         }
     };
     bool makeLoginWindow();
-//function that parse file and makes the graph
+    //function that parse file and makes the graph
     void parseFile();
     Node* insert(Node* node, const SongData& song);
     Node* makeTree(vector<SongData*> songVect);

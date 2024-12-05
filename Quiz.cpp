@@ -7,15 +7,15 @@
 #include "Result.h"
 #include "Login.h"
 #include <map>
+#include <chrono>
 using namespace std;
 
-//jennas screen updated
-
-
-
+// making the quiz window
 bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphopTree, Login::Node* rnbTree, Login::Node* countryTree) {
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
     sf::RenderWindow window(sf::VideoMode(800, 600), "Quiz Screen", sf::Style::Fullscreen);
+
+    // putting logo on quiz screen
     sf::Texture logo;
     if (!logo.loadFromFile("images/logo.png")) {
         return false;
@@ -24,14 +24,13 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     sf::Sprite showLogo;
     showLogo.setTexture(logo);
 
-
     sf::FloatRect logoBounds = showLogo.getLocalBounds();
     showLogo.setOrigin(logoBounds.width / 2.f, logoBounds.height / 2.f);
-
 
     showLogo.setScale(0.30, 0.30);
     showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f) - 195);
 
+    // putting the logout button on the screen
     sf::Texture logout;
     if (!logout.loadFromFile("images/logout.png")) {
         return false;
@@ -42,7 +41,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
     showLogout.setPosition(-40, (showLogout.getLocalBounds().height / 2.f) - 280);
 
-
+    // profile is not used anymore
     sf::Texture profile;
     if (!profile.loadFromFile("images/profile.png")) {
         return false;
@@ -53,12 +52,14 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     showProfile.setPosition(window.getSize().x - showProfile.getLocalBounds().width * 0.22f,
                             (showProfile.getLocalBounds().height / 2.f) - 280);
 
+    // loading font
     sf::Font font;
     if (!font.loadFromFile("images/font.ttf")) {
         std::cerr << "Error loading font" << std::endl;
         return -1;  // Exit on error
     }
 
+    // putting text on screen for the quiz
     sf::Text welcomeText;
     welcomeText.setFont(font);
     welcomeText.setString("Welcome to Spoti-fam!");
@@ -223,7 +224,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
     sf::Text q41Text;
     q41Text.setFont(font);
-    q41Text.setString("Method 1");
+    q41Text.setString("BFS");
     q41Text.setCharacterSize(16);
     q41Text.setFillColor(sf::Color::Black);
     //q11Text.setStyle(sf::Text::Bold);
@@ -232,13 +233,14 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
 
     sf::Text q42Text;
     q42Text.setFont(font);
-    q42Text.setString("Method 2");
+    q42Text.setString("DFS");
     q42Text.setCharacterSize(16);
     q42Text.setFillColor(sf::Color::Black);
     //q12Text.setStyle(sf::Text::Bold);
     q42Text.setPosition(90,
                         (window.getSize().y / 2.0f) + 190);
 
+    // putting next button on screen
     sf::Texture enterButton;
     if (!enterButton.loadFromFile("images/next.png")) {
         return false;
@@ -247,14 +249,13 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     sf::Sprite showButton;
     showButton.setTexture(enterButton);
 
-
     sf::FloatRect buttonBounds = showButton.getLocalBounds();
     showButton.setOrigin(buttonBounds.width / 2.f, buttonBounds.height / 2.f);
-
 
     showButton.setScale(0.50f, 0.50f);
     showButton.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f + 300);
 
+    // placing the multiple choice buttons
     sf::Texture mcButton;
     if (!mcButton.loadFromFile("images/unfilled.png")) {
         return false;
@@ -428,7 +429,6 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
     int MC4 = 0;
 
     map<string, vector<int>> fakeNameMap;
-    // SET BUTTONS AT 60 FOR X AXIS
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -437,10 +437,11 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
                 window.close();
             }
 
-            //TIM AND JENNA WORK SPACE
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 mouseClickedL = true;
             }
+
+            // filling the button if user clicks
             if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
                 if (mouseClickedL == true) {
                     auto mouse = sf::Mouse::getPosition(window);
@@ -556,6 +557,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
                     }
                 }
             }
+            // getting the users answers when next button is clicked
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 sf::FloatRect finalButtonBounds = showButton.getGlobalBounds();
@@ -574,7 +576,7 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
                             cout << i << ", ";
                         }
                     }
-                    //writing current to the csv
+                    // writing current to the csv
                     ofstream outFile("images/friends.csv", ios::app);
                     if (!outFile) {
                         cerr << "Error: Could not open file for writing!" << std::endl;
@@ -638,20 +640,22 @@ bool Quiz::makeQuizWindow(string name, Login::Node* popTree, Login::Node* hiphop
                         }
                         vector<int> userData = {gen, dan, ene, tra};
                         nameMap[username] = userData;
-                        cout << "Inserted " << username << " into map with data: "
-                             << gen << ", " << dan << ", " << ene << ", " << tra << endl;
+//                        cout << "Inserted " << username << " into map with data: "
+//                             << gen << ", " << dan << ", " << ene << ", " << tra << endl;
                         //end reading
                     }
                     inputFile.close();
+
+                    // getting the song and friend; calling the result window
+                    // timed clock using syntax from https://stackoverflow.com/questions/22387586/measuring-execution-time-of-a-function-in-c
+                    // also used for timer: https://en.cppreference.com/w/cpp/chrono/duration
                     Results res = Results();
                     string songName = res.generateReccSong(fakeNameMap, name, popTree, hiphopTree, rnbTree, countryTree);
                     string friendName = res.findFriend(nameMap, name);
                     res.createWindowR(songName, friendName);
-
-
-                        //cout << nameMap.size();
-
                     }
+
+                    // if user clicks logout button
                     sf::FloatRect finalLogoutBounds = showLogout.getGlobalBounds();
                     if (finalLogoutBounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
                         window.close();

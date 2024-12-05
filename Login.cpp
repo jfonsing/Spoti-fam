@@ -10,13 +10,13 @@
 #include <string>
 #include <unordered_map>
 #include "Login.h"
-//ria screen updated
-// jenna was here
 
-
+// makes the login window
 bool Login::makeLoginWindow() {
     // used this for syntax: https://www.sfml-dev.org/tutorials/2.6/window-window.php
     sf::RenderWindow window(sf::VideoMode(800, 600), "Login Screen", sf::Style::Fullscreen);
+
+    // placing logo on login page
     sf::Texture logo;
     if (!logo.loadFromFile("images/logo.png")) {
         return false;
@@ -25,17 +25,13 @@ bool Login::makeLoginWindow() {
     sf::Sprite showLogo;
     showLogo.setTexture(logo);
 
-
     sf::FloatRect logoBounds = showLogo.getLocalBounds();
     showLogo.setOrigin(logoBounds.width / 2.f, logoBounds.height / 2.f);
-
 
     showLogo.setScale(0.50f, 0.50f);
     showLogo.setPosition(window.getSize().x / 2.f, (showLogo.getLocalBounds().height / 2.f)-150);
 
-
-
-
+    // loading font
     sf::Font font;
     if (!font.loadFromFile("images/font.ttf"))
     {
@@ -43,6 +39,7 @@ bool Login::makeLoginWindow() {
         return -1;  // Exit on error
     }
 
+    // user prompt text
     sf::Text nameText;
     nameText.setFont(font);
     nameText.setString("Enter your username: ");
@@ -62,6 +59,8 @@ bool Login::makeLoginWindow() {
                           (window.getSize().y / 2.0f) - 25);
 
     const int MAX_CHARS = 30;
+
+    // placing next button on login screen
     sf::Texture enterButton;
     if (!enterButton.loadFromFile("images/next.png")) {
         return false;
@@ -70,14 +69,13 @@ bool Login::makeLoginWindow() {
     sf::Sprite showButton;
     showButton.setTexture(enterButton);
 
-
     sf::FloatRect buttonBounds = showButton.getLocalBounds();
     showButton.setOrigin(buttonBounds.width / 2.f, buttonBounds.height / 2.f);
-
 
     showButton.setScale(0.50f, 0.50f);
     showButton.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f +30);
 
+    // calling the function to parse through the spotify dataset
     parseFile();
 
     while (window.isOpen()) {
@@ -87,6 +85,7 @@ bool Login::makeLoginWindow() {
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+            // user puts in input
             if (event.type == sf::Event::TextEntered) {
                 // Ignore control characters, including backspace
                 if (event.text.unicode < 128 && event.text.unicode != '\b') {
@@ -95,6 +94,7 @@ bool Login::makeLoginWindow() {
                     }
                 }
             }
+            // user clicks the next button
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 sf::FloatRect finalButtonBounds = showButton.getGlobalBounds();
@@ -107,7 +107,7 @@ bool Login::makeLoginWindow() {
                 }
             }
 
-
+            // user presses enter
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Return && !name.empty()) {
                     window.close();
@@ -120,7 +120,7 @@ bool Login::makeLoginWindow() {
                 }
             }
 
-//        userInput.setString(name);
+            // displaying username
             float x = (window.getSize().x / 2.0f) - (userInput.getGlobalBounds().width / 2.0f);
             float y = (window.getSize().y / 2.0f) - 45;
 
@@ -145,10 +145,9 @@ bool Login::makeLoginWindow() {
     return false;
 }
 
-
-
-
+// parsing the spotify dataset
 void Login::parseFile(){
+    // reading the dataset
     ifstream inputFile;
     inputFile.open("images/dataset.csv");
     if (!inputFile.is_open()) {
@@ -218,63 +217,66 @@ void Login::parseFile(){
         getline(inputString,time, ',' );
         getline(inputString,genre, ',' );
 
+        // putting it into a SongData object
         SongData* element = new SongData(songName,artistName, danceability, energy, genre);
 
+        // sorting the genres into different vectors
         if(element->Genre == "pop"){
-            cout << element->Genre << endl;
+            //cout << element->Genre << endl;
             popSongs.push_back(element);
         }
         else if(element->Genre == "country"){
-            cout << element->Genre << endl;
+            //cout << element->Genre << endl;
             countrySongs.push_back(element);
         }
         else if(element->Genre == "r-n-b"){
-            cout << element->Genre << endl;
+            //cout << element->Genre << endl;
             rnbSongs.push_back(element);
         }
         else if(element->Genre == "hip-hop"){
-            cout << element->Genre << endl;
+            //cout << element->Genre << endl;
             hiphopSongs.push_back(element);
         }
         line = "";
     }
-//    if (!popSongs.empty()) {
-//        cout << popSongs[0]->ArtistName << endl;
-//    }
+
+    // make a tree out of those new vectors (4 separate trees)
     popTree = makeTree(popSongs);
     countryTree = makeTree(countrySongs);
     rnbTree = makeTree(rnbSongs);
     hiphopTree = makeTree(hiphopSongs);
 }
 
+// inserting songs into the tree based on danceability
 Login::Node* Login::insert(Node* node, const SongData& song) {
-    //cout << "entered" << endl;
+    // base case
     if(node == nullptr){
         Node* newNode = new Node(song);
-        //cout << "Inserting song: " << song.SongName << " (Danceability: " << song.Danceability << ")" << endl;
         return newNode;
     }
+    // inserting left
     if(song.Danceability < node->song.Danceability){
-        //cout << "Going left: " << song.SongName << " (Danceability: " << song.Danceability << ")" << endl;
         node->left = insert(node->left, song);
     }
+    // inserting right
     else if(song.Danceability > node->song.Danceability){
-        //cout << "Going right: " << song.SongName << " (Danceability: " << song.Danceability << ")" << endl;
         node->right = insert(node->right, song);
     }
+    // if equal
     else {
-        //cout << "Duplicate found, inserting in left subtree: " << song.SongName << endl;
-        node->left = insert(node->left, song);  // Insert duplicates in the left subtree (or handle them differently)
+        node->left = insert(node->left, song);
     }
-//    cout << node << endl;
     return node;
 }
 
+// making the tree
 Login::Node* Login::makeTree(vector<SongData*> songVect){
+    // base case
     if (songVect.empty()) {
         return nullptr;
     }
 
+    // making a new tree and inserting everything from the vector
     Login::Node* root = new Login::Node(*songVect[0]);
     for(int i = 1; i < songVect.size(); i++){
         insert(root, *songVect[i]);
@@ -282,11 +284,10 @@ Login::Node* Login::makeTree(vector<SongData*> songVect){
     return root;
 }
 
-
+// running everything
 int main(){
     Login quiz = Login();
     quiz.makeLoginWindow();
 }
-//push
-//
+
 
